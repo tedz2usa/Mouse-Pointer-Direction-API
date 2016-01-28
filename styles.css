@@ -16,7 +16,9 @@ body {
 }
 
 .positionBox {
-	border: 1px solid red;
+	border: 2px solid red;
+	border-radius: 5px;
+	margin: 10px;
 	width: 100px;
 	height: 100px;
 	position: absolute;
@@ -40,7 +42,8 @@ body {
 }
 
 .rotationBox {
-	border: 1px solid green;
+	border: 2px solid green;
+	border-radius: 5px;
 	width: 100px;
 	height: 100px;
 	line-height: 100px;
@@ -50,15 +53,19 @@ body {
 	font-weight: bold;
 	color: #777;
 	/*top: -50px;*/
+	top: 10px;
+	/*right: 10px;*/
 	position: absolute;
 }
 
 .clockwise {
 	left: 50px;
+	/*border-left: 1px solid green;*/
 	/*left: 0;*/
 }
 
 .counterclockwise {
 	right: -50px;
+	border-right: 1px solid green;
 	/*right: 0;*/
 }
