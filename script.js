@@ -204,7 +204,7 @@ function init() {
 
 function createRotationBox(rotation) {
 	var rotationLabels = {
-		'clockwise': 'CC',
+		'clockwise': 'CW',
 		'counterclockwise': 'CCW'
 	}
 	var box = createDom('div', 'rotationBox ' + rotation);
