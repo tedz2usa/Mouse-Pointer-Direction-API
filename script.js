@@ -10,14 +10,25 @@ window.onkeydown = keydown;
 window.onmousemove = mousemove;
 
 var lastClientX, lastClientY;
+var lastPositionIndex;
+var lastRotation;
 
 var timer = 0;
+var rotationTimer = 0;
 
 
 var mouseStopTimeout;
 
+var rotation_directions =['north', 'northeast', 'east', 'southeast', 'south', 'southwest', 'west', 'northwest'];
+
+
+
+
 function mousestop() {
 	log('mousestop');
+	lastRotation = '';
+	rotationTimer = 0;
+	unhighlightAllRotations();
 }
 
 function mousemove(event) {
@@ -67,12 +78,48 @@ function processNewXY(clientX, clientY) {
 	dy_index++;
 
 	var position = dxy_position[dy_index][dx_index];
-	log(dx, dy, position);
 	highlightPosition(position);
+
+	// Process Rotation
+
+	var positionIndex = rotation_directions.indexOf(position);
+
+	var rotation_difference = positionIndex - lastPositionIndex;
+	if (rotation_difference > 5) {
+		rotation_difference -= 8;
+	} else if (rotation_difference < -5) {
+		rotation_difference += 8;
+	}
+
+	//log(lastPositionIndex, positionIndex, rotation_difference);
+
+
+	var rotation = rotationFromDifference(rotation_difference);
+	if (rotationTimer > 3) {
+		highlightRotation(rotation);
+		log(dx, dy, position, rotation);
+	}
+	rotationTimer++;
+
+	//log(dx, dy, position);
+	
 
 
 	lastClientX = clientX;
 	lastClientY = clientY;
+	lastPositionIndex = positionIndex;
+	lastRotation = rotation;
+}
+
+function rotationFromDifference(difference) {
+	if (difference > 0) {
+		return 'clockwise';
+	} else if (difference < 0) {
+		return 'counterclockwise';
+	} else {
+		return lastRotation;
+	}
+
 }
 
 var keycodes = {
@@ -119,6 +166,8 @@ var positions = {
 var boxes = {};
 
 var highlightClassName = 'highlighted';
+var highlightRotationClassName = 'highlightedRotation';
+
 
 var rotationBoxes = {};
 
@@ -162,6 +211,19 @@ function createRotationBox(rotation) {
 	box.textContent = rotationLabels[rotation];
 	rotationBoxes[rotation] = box;
 	return box;
+}
+
+
+function highlightRotation(rotation) {
+	if (rotation) {
+		unhighlightAllRotations();
+		rotationBoxes[rotation].classList.add(highlightRotationClassName);
+	}
+}
+
+function unhighlightAllRotations() {
+	rotationBoxes['clockwise'].classList.remove(highlightRotationClassName);
+	rotationBoxes['counterclockwise'].classList.remove(highlightRotationClassName);
 }
 
 function highlightPosition(position) {

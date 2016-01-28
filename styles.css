@@ -26,6 +26,11 @@ body {
 	background-color: red;
 }
 
+.highlightedRotation {
+	background-color: green;
+	color: #eee !important;
+}
+
 .rotationContainer {
 	position: relative;
 	top: 50%;
